@@ -249,9 +249,6 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 │ Output: Top-15 Songs + Probabilities                    │
 │ Example: ["Rattlesnake": 0.87, "The River": 0.82, ...]  │
 └─────────────────────────────────────────────────────────┘
-                         │
-                         ▼
-     [Cold Start: Uses global frequencies]
 ```
 
 ### GNN (Stage 4): Temporal Graph Neural Network
