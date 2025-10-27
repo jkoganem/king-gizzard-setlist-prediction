@@ -880,11 +880,11 @@ python predict_setlist.py \
 
 ## Data
 
-**Source**: setlist.fm
-**Time period**: 2022-01-01 to 2025-10-25
-**Shows**: 220 concerts
-**Songs**: 203 unique tracks
-**Setlist entries**: 3,251 song performances
+- **Source**: setlist.fm
+- **Time period**: 2022-01-01 to 2025-10-25
+- **Shows**: 220 concerts
+- **Songs**: 203 unique tracks
+- **Setlist entries**: 3,251 song performances
 
 ### Data Characteristics
 - **Average setlist size**: 14.8 songs (range: 8-34)
