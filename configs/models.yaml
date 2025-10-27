@@ -1,0 +1,187 @@
+# Model Hyperparameters Configuration
+#
+# This file contains default hyperparameters for all models in the setlist prediction pipeline.
+# Models are organized by experimental stage.
+
+# =============================================================================
+# Stage 1: Traditional ML Models (Feature Engineering Paradigm)
+# =============================================================================
+# These models work with pre-engineered tabular features
+# Input: Flat feature vector (recency, frequency, co-occurrence, etc.)
+
+logistic_regression:
+  max_iter: 1000
+  random_state: 42
+  n_jobs: 4
+  solver: lbfgs
+
+random_forest:
+  n_estimators: 200
+  max_depth: 10
+  min_samples_split: 20
+  random_state: 42
+  n_jobs: 4
+  class_weight: balanced
+  bootstrap: true
+
+xgboost:
+  n_estimators: 300
+  max_depth: 6
+  learning_rate: 0.05
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_alpha: 0.0
+  reg_lambda: 1.0
+  random_state: 42
+  nthread: 4
+  tree_method: hist
+  eval_metric: logloss
+  early_stopping_rounds: 20
+
+# =============================================================================
+# Stage 3: Neural Models (Representation Learning Paradigm)
+# =============================================================================
+# These models learn embeddings from categorical IDs
+# Input: song_ids, venue_ids, tour_ids, country_ids + tabular features
+
+deepfm:
+  embedding_dim: 16
+  hidden_dims: [128, 64]
+  dropout: 0.2
+  learning_rate: 0.001
+  batch_size: 512
+  epochs: 50
+  weight_decay: 0.0001
+  device: cpu
+
+temporal_sets:
+  # Current best model: 35.54% Recall@15
+  embedding_dim: 64
+  num_heads: 4
+  num_layers: 2
+  hidden_dim: 128
+  dropout: 0.1
+  learning_rate: 0.001
+  batch_size: 32
+  epochs: 100
+  weight_decay: 0.0001
+  device: cpu
+
+# =============================================================================
+# Stage 3 (Optional): Additional Neural Models
+# =============================================================================
+
+dcn:
+  # Deep & Cross Network V2
+  embedding_dim: 16
+  cross_layers: 3
+  deep_layers: [512, 256, 128]
+  dropout: 0.2
+  learning_rate: 0.001
+  batch_size: 512
+  epochs: 50
+  weight_decay: 0.0001
+  device: cpu
+
+tabnet:
+  # TabNet: Attentive Interpretable Tabular Learning
+  n_d: 8  # Width of decision prediction layer
+  n_a: 8  # Width of attention embedding
+  n_steps: 3  # Number of steps in the architecture
+  gamma: 1.3  # Relaxation parameter for feature reusage
+  n_independent: 2  # Number of independent GLU layers
+  n_shared: 2  # Number of shared GLU layers
+  lambda_sparse: 0.001  # Sparsity loss weight
+  learning_rate: 0.02
+  batch_size: 1024
+  epochs: 100
+  device: cpu
+
+# =============================================================================
+# Stage 0: Sequential Models (For EDA)
+# =============================================================================
+
+sasrec:
+  # Self-Attentive Sequential Recommendation
+  # Used for understanding setlist ordering patterns
+  embedding_dim: 64
+  num_heads: 2
+  num_blocks: 2
+  hidden_dim: 128
+  dropout: 0.2
+  learning_rate: 0.001
+  batch_size: 128
+  max_seq_length: 50
+  epochs: 100
+  device: cpu
+
+# =============================================================================
+# Hyperparameter Tuning Configuration (Optuna)
+# =============================================================================
+
+optuna:
+  n_trials: 100
+  timeout: 7200  # 2 hours
+  n_jobs: 1  # Sequential for M1 Mac
+
+  # XGBoost search space
+  xgboost_search_space:
+    n_estimators: [100, 500]
+    max_depth: [3, 10]
+    learning_rate: [0.01, 0.1]
+    subsample: [0.6, 1.0]
+    colsample_bytree: [0.6, 1.0]
+    reg_alpha: [0.0, 1.0]
+    reg_lambda: [0.0, 2.0]
+
+# =============================================================================
+# Training Configuration
+# =============================================================================
+
+training:
+  random_seed: 42
+
+  # Data splits (currently hardcoded in experiments as 0.70/0.15/0.15)
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+
+  # Early stopping
+  early_stopping_patience: 10
+  scheduler_patience: 5  # For ReduceLROnPlateau
+  save_best_only: true
+
+  # Default training hyperparameters (can be overridden per model)
+  default_batch_size: 128
+  default_learning_rate: 0.001
+  default_epochs: 100
+  default_weight_decay: 0.0001
+
+  # Dataset splits
+  recent_shows_date: "2022-01-01"
+
+  # Specialized show dates (excluded from training/test split due to unique characteristics)
+  # Orchestra shows: 2025-07-28, 2025-07-30, 2025-08-01, 2025-08-04, 2025-08-06, 2025-08-08, 2025-08-10
+  # Note: These are detected automatically via 'orchestra' keyword in notes field
+  specialized_show_dates: []  # Currently disabled - handled via filtering logic in dataio.py
+
+# =============================================================================
+# Evaluation Configuration
+# =============================================================================
+
+evaluation:
+  metrics:
+    - recall@5
+    - recall@10
+    - recall@15
+    - precision@15
+    - f1@15
+    - auc
+    - log_loss
+    - brier_score
+
+  k_values: [5, 10, 15, 20]
+
+  # Statistical testing
+  significance_level: 0.05
+  bootstrap_samples: 1000

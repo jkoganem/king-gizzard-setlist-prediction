@@ -1,0 +1,57 @@
+# Stage 1: Traditional ML Baseline Comparison
+#
+# Factorial design testing traditional ML models:
+# - 3 models (logistic_regression, random_forest, xgboost)
+# - 2 datasets (recent ~200 shows vs full ~500 shows)
+# - 2 filtering options (with/without specialized shows)
+#
+# Total: 3 × 2 × 2 = 12 experiments
+#
+# Purpose: Establish baseline and identify best dataset configuration
+# Expected: XGBoost likely best, but need to validate
+#
+# Usage:
+#   python scripts/run_experiments.py --config experiments/stage1_traditional_ml.yaml
+
+name: "Stage 1 - Traditional ML Baseline"
+description: "Factorial experiment to establish baseline performance and identify best dataset configuration"
+
+# Traditional ML models (feature engineering paradigm)
+models:
+  - logistic
+  - random_forest
+  - xgboost
+
+# Dataset configurations
+datasets:
+  - recent  # Shows from 2022+ (~204 shows)
+  - full    # All shows (~500 shows)
+
+# Specialized show filtering
+remove_specialized:
+  - false   # Keep all shows (including specialized/orchestral)
+  - true    # Remove specialized shows
+
+# Hyperparameter tuning
+tune: false  # Use defaults for Stage 1 baseline
+
+# Random seed for reproducibility
+seed: 42
+
+# Output directory for results
+output_dir: "output/experiments/stage1_traditional_ml"
+
+# Evaluation metrics to compute
+metrics:
+  - recall@5
+  - recall@10
+  - recall@15
+  - precision@15
+  - f1@15
+  - auc
+  - log_loss
+  - brier_score
+
+# Save intermediate results
+save_predictions: true
+save_models: true

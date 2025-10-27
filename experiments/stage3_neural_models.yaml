@@ -1,0 +1,62 @@
+# Stage 3: Neural Models Comparison
+#
+# Compare neural models (representation learning) against tuned XGBoost baseline.
+# Use same dataset configuration as Stage 2 for fair comparison.
+#
+# Neural models:
+# - DeepFM: Factorization machines + deep network
+# - Temporal Sets GNN: Current best (35.54% Recall@15)
+# - DCN: Deep & cross network (optional, if time permits)
+# - TabNet: Attentive interpretable tabular learning (optional)
+#
+# Key difference from traditional ML:
+# - Learn embeddings from categorical IDs (songs, venues, tours, countries)
+# - End-to-end representation learning vs feature engineering
+#
+# Purpose: Compare paradigms (feature engineering vs representation learning)
+# Baseline: Tuned XGBoost from Stage 2
+#
+# Usage:
+#   python scripts/train.py --model deepfm --dataset full
+#   python scripts/train.py --model temporal_sets --dataset full
+
+name: "Stage 3 - Neural Models Comparison"
+description: "Compare representation learning vs feature engineering approaches"
+
+# Neural models to train
+models:
+  - deepfm
+  - temporal_sets
+  # Optional (uncomment if time permits):
+  # - dcn
+  # - tabnet
+
+# Dataset (MUST match Stage 2 for fair comparison)
+dataset: full  # Update to match Stage 2
+remove_specialized: false  # Update to match Stage 2
+
+# Training configuration
+use_defaults: true  # Use configs/models.yaml defaults
+tune: false  # Light tuning only if time permits
+
+# Evaluation
+seed: 42
+output_dir: "output/experiments/stage3_neural_models"
+
+# Comparison baseline
+baseline_model: "output/experiments/stage2_xgboost_tuning/xgboost_tuned.pkl"
+
+# Metrics (same as Stage 1 & 2 for comparison)
+metrics:
+  - recall@5
+  - recall@10
+  - recall@15
+  - precision@15
+  - f1@15
+  - auc
+  - log_loss
+  - brier_score
+
+# Additional analysis
+track_training_time: true  # Compare efficiency
+save_embeddings: true  # For visualization/interpretation

@@ -1,0 +1,123 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# Data
+data/raw/
+data/curated/
+*.db
+*.duckdb
+*.parquet
+
+# Output directory (models and intermediate files)
+output/models/
+output/reports/
+output/predictions/
+*.pkl
+*.joblib
+*.bin
+
+# But keep figures for README
+!output/figures/
+!output/figures/*.png
+
+# Experiment outputs
+experiments/**/outputs/
+experiments/neural_networks/
+experiments/xgboost/
+experiments/corrected_baselines/
+*.png
+*.html
+
+# But allow figures in output/figures/
+!output/figures/*.png
+
+# Old directories (for migration)
+artifacts/
+reports/
+
+# Cache
+.cache/
+*.cache
+__pycache__/
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (internal notes, not for repo)
+docs/
+
+# Archive (old experimental code)
+archive/
+
+# Experimental code
+src/ingest/experimental/
+
+# Experimental shell scripts
+*.sh
+get_results.sh
+rerun_fixed_experiments.sh
+run_all_experiments.sh
+run_oc_experiments.sh
+
+# Notebooks and reports (archived/experimental)
+notebooks/
+reports/
+
+# Frontend (separate Next.js app - commit separately later)
+frontend/
+
+# Logs
+*.log
+training_output.log
+
+# Claude metadata
+.claude/
+
+# Pre-commit config (if not used)
+.pre-commit-config.yaml
+
+# Internal planning documents
+TODO.md
+NOTES.md

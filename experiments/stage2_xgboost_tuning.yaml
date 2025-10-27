@@ -1,0 +1,53 @@
+# Stage 2: XGBoost Hyperparameter Tuning
+#
+# Optimize XGBoost (best traditional ML model from Stage 1) using Optuna.
+# Use best dataset configuration identified in Stage 1.
+#
+# Tuning strategy:
+# - Tree-structured Parzen Estimator (TPE) for efficient search
+# - 100-200 trials (adjust based on time constraints)
+# - Search space: n_estimators, max_depth, learning_rate, subsample,
+#                 colsample_bytree, reg_alpha, reg_lambda
+#
+# Purpose: Extract maximum performance from traditional ML
+# Output: Tuned model + feature importance analysis
+#
+# Usage:
+#   python scripts/train.py --model xgboost --dataset full --tune --n-trials 100
+
+name: "Stage 2 - XGBoost Hyperparameter Tuning"
+description: "Optimize XGBoost using Optuna on best dataset from Stage 1"
+
+# Model
+model: xgboost
+
+# Dataset (UPDATE after Stage 1 completes)
+# Set to best performing configuration from Stage 1
+dataset: full  # Change to 'recent' if Stage 1 shows recent is better
+remove_specialized: false  # Change to true if Stage 1 shows filtering helps
+
+# Optuna configuration
+tune: true
+n_trials: 100
+timeout: 7200  # 2 hours
+
+# Search space (defined in configs/models.yaml)
+# Will search:
+#   n_estimators: [100, 500]
+#   max_depth: [3, 10]
+#   learning_rate: [0.01, 0.1]
+#   subsample: [0.6, 1.0]
+#   colsample_bytree: [0.6, 1.0]
+#   reg_alpha: [0.0, 1.0]
+#   reg_lambda: [0.0, 2.0]
+
+# Evaluation
+seed: 42
+output_dir: "output/experiments/stage2_xgboost_tuning"
+
+# Feature importance analysis
+analyze_importance: true
+importance_types:
+  - gain      # Reduction in loss
+  - cover     # Number of samples
+  - weight    # Number of splits
