@@ -44,7 +44,7 @@ To address this issue, we build features using **Pointwise Mutual Information (P
 #### PMI (Pointwise Mutual Information)
 Given two songs $song_i$ and $song_j$, the PMI between them is defined via the formula
 
-$$\text{PMI}(song_i, song_j) = \log \frac{\mathbb{P}(song_i, song_j)}{P(song_i) \cdot \mathbb{P}(song_j)},$$
+$$\text{PMI}(song_i, song_j) = \log \frac{\mathbb{P}(song_i, song_j)}{\mathbb{P}(song_i) \cdot \mathbb{P}(song_j)},$$
 
 where
 - $\mathbb{P}(song_i, song_j)$ = probability both songs appear in the same show (frequency)
