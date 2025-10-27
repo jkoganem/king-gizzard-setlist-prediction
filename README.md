@@ -43,9 +43,9 @@ To address this issue, we build features using **Pointwise Mutual Information (P
 
 #### PMI (Pointwise Mutual Information)
 Given two songs $song_i$ and $song_j$, the PMI between them is defined via the formula
-$$
-\text{PMI}(song_i, song_j) = \log \frac{\mathbb{P}(song_i, song_j)}{P(song_i) \cdot \mathbb{P}(song_j)},
-$$
+
+$$\text{PMI}(song_i, song_j) = \log \frac{\mathbb{P}(song_i, song_j)}{P(song_i) \cdot \mathbb{P}(song_j)},$$
+
 where
 - $\mathbb{P}(song_i, song_j)$ = probability both songs appear in the same show (frequency)
 - $\mathbb{P}(song_i)$ = probability song $i$ appears (marginal frequency)
@@ -553,8 +553,6 @@ Note: Features 29-34 are residency-specific features that help the model handle 
 
 We tested a few different approaches, progressively improving performance:
 
-![Model Performance](output/figures/3_model_performance.png)
-
 ### Stage 1: Baseline Models (26.46%)
 
 We tested 3 popular statistical ML models (Logistic Regression, Random Forest, XGBoost) using engineered features. This allows us to establish that this problem is solvable and identifies best baseline.
@@ -675,11 +673,6 @@ We then implemented the model (with appropriate modifications to our problem) in
 
 **Why this matters**: We discovered that letting frequency weight grow too large causes the model to just predict popular songs and ignore temporal context. Regularization fixes this.
 
----
-
-## Complete Model Leaderboard
-
-![Complete Leaderboard](output/figures/complete_leaderboard.png)
 
 ---
 
@@ -781,17 +774,17 @@ python predict_setlist.py \
 |------|-----------------|------------|----------------|-------|
 | 1 | The Dripping Tap | 85% | Float Along – Fill Your Lungs | |
 | 2 | Ice V | 82% | Boogieman Sam | |
-| 3 | The River | 78% | **The Dripping Tap** | ✓ |
+| 3 | The River | 78% | **The Dripping Tap** | Yes! |
 | 4 | Gila Monster | 75% | The Wheel | |
 | 5 | Magenta Mountain | 72% | Iron Lung | |
-| 6 | Planet B | 70% | **The River** | ✓ |
+| 6 | Planet B | 70% | **The River** | Yes! |
 | 7 | Self-Immolate | 68% | Wah Wah | |
 | 8 | Converge | 65% | Sense | |
 | 9 | Mars for the Rich | 63% | This Thing | |
-| 10 | Dragon | 60% | **Mars for the Rich** | ✓ |
-| 11 | Raw Feel | 58% | **Self-Immolate** | ✓ |
-| 12 | Motor Spirit | 56% | **Converge** | ✓ |
-| 13 | Rattlesnake | 54% | **Gila Monster** | ✓ |
+| 10 | Dragon | 60% | **Mars for the Rich** | Yes! |
+| 11 | Raw Feel | 58% | **Self-Immolate** | Yes! |
+| 12 | Motor Spirit | 56% | **Converge** | Yes! |
+| 13 | Rattlesnake | 54% | **Gila Monster** | Yes! |
 | 14 | Superbug | 52% | | |
 | 15 | The Wheel | 50% | | |
 
@@ -954,7 +947,7 @@ MIT License - see LICENSE file for details.
 
 ## Acknowledgments
 
-- Data sourced from **setlist.fm**
+Data sourced from **setlist.fm**
 
 ---
 
