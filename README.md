@@ -620,11 +620,9 @@ We then implemented the model (with appropriate modifications to our problem) in
 - **Stage 4A** (GNN Baseline): 43.96% - Base temporal GNN architecture
 - **Stage 4B** (GNN + Dropout): 44.08% - Added feature dropout for robustness
 
-### Stage 5: GNN + Priors - FINAL MODEL (52.66%)
+### Stage 5: GNN + Priors + Optimal Hyperparameters - FINAL MODEL (52.66%)
 
-**What we did**: Added explicit frequency and recency priors from SAFERec (see [2])
-**Why it matters**: **Breakthrough performance - +11.48% improvement over Stage 4B**
-**Key innovation**: Learned prior weights that balance statistical biases with graph patterns
+We added explicit frequency and recency priors from SAFERec (see [2]) to upgrade the model in Stage 4. This allows the model to leverage both graph patterns and statistical biases in song popularity and recency. This allowed us to achieve **+11.48% improvement over Stage 4B**.
 
 **The model learns two weights**:
 - **Alpha ($\alpha = 0.482$)**: Weight for song frequency prior (how often a song is played overall)
