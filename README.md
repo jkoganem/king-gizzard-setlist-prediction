@@ -181,8 +181,6 @@ The biggest performance jump came from treating the problem as a temporal set pr
 - Many songs are played in pairs or groups (Mind Fuzz Suite, Nonagon Suite, "Converge" -> "Witchcraft", etc.)
 - GNN learns these patterns automatically
 
-Traditional ML models treat songs independently. The GNN models learn about relationships between them.
-
 We also use the techniques in SAFERec [2] to add frequency and recency priors to the GNN predictions, which are used to further boost performance.
 
 
@@ -190,7 +188,32 @@ We also use the techniques in SAFERec [2] to add frequency and recency priors to
 
 ## Dataset Overview
 
-After performing the aforementioned A/B test, we trained most of our models on **220 concerts** from 2022-present with **203 unique songs**.
+- **Source**: setlist.fm
+- **Time period**: 2022-01-01 to 2025-10-25
+- **Shows**: 220 concerts
+- **Songs**: 203 unique tracks
+- **Setlist entries**: 3,251 song performances
+
+### Data Characteristics
+- **Average setlist size**: 14.8 songs (range: 8-34)
+- **Marathon shows**: 17 extended performances (3-hour shows with 22-34 songs)
+- **Long-tail distribution**: Many songs played rarely (sparse, challenging problem)
+- **Temporal split for training**: 70% train, 15% validation, 15% test (chronological order)
+
+### Filtered Data Decisions
+
+Based on our experiments, we made these filtering decisions:
+
+1. **Time period**: 2022+ only (more recent = more structure)
+2. **Specialized shows**: Excluded orchestra shows and rave shows
+   - Orchestra: very rigid setlist, plays Phantom Island (album 27) in full
+   - Rave: Electronic-focused, different patterns
+3. **Partial setlists**: Excluded incomplete data
+
+**Impact**: +2-3% Recall@15 improvement from proper filtering
+
+After performing the aforementioned A/B test, we trained most of our models on the most recent 220 concerts from 2022-present with 203 unique songs.
+
 
 ### Song Distribution
 
@@ -422,17 +445,24 @@ We borrowed a standard technique from NLP (BERT pre-training, see [5]) and appli
 
 ### Results
 
-| Model | Without Dropout | With Dropout | Improvement |
-|-------|----------------|--------------|-------------|
-| GNN (Stage 4) | ~49% | ~50% | +1% |
-| GNN + Priors (Stage 5) | Unstable | ~48% (stable) | Prevents overfitting |
+| Model | Recall@15 | Impact |
+|-------|-----------|--------|
+| Stage 4A (GNN, no dropout) | 43.96% | Baseline GNN |
+| Stage 4B (GNN + dropout) | 44.08% | +0.12% - minimal improvement |
+| Stage 5 (GNN + dropout + priors) | 47.03% | +2.95% over Stage 4B |
+| Stage 5B (Final, hyperparameter-tuned) | 52.66% | +8.58% over Stage 4B |
+
+**Key Insight**: Feature dropout provides marginal improvement on its own (+0.12%), but becomes critical when combined with priors in Stage 5. The main performance gains come from:
+1. **Priors** (frequency + recency): +2.95% improvement
+2. **Hyperparameter tuning**: Additional +5.63% improvement
+3. **Dropout for stability**: Prevents overfitting with priors, enabling better generalization and cold start handling
 
 **Production Impact**: The model now works for:
 - New venues (hasn't seen before)
 - New tours (first show of a tour)
 - Missing data (incomplete venue information)
 
-**Tradeoff**: Slight performance decrease (~1%) on known venues, but much better generalization.
+**Tradeoff**: Dropout adds minimal overhead (~2% slower training) but significantly improves robustness to unseen contexts.
 
 ---
 
@@ -626,7 +656,7 @@ We added explicit frequency and recency priors from SAFERec (see [2]) to upgrade
 - **Beta ($\beta = 0.481$)**: Weight for recency prior (how recently a song was played)
 
 **Substages**:
-- **Stage 5A**: Optuna hyperparameter search (100 trials) to find optimal configuration
+- **Stage 5A**: Optuna hyperparameter search (50 trials) to find optimal configuration
 - **Stage 5B**: Final model trained with optimal hyperparameters → **52.66% Recall@15**
 
 
@@ -872,36 +902,6 @@ python predict_setlist.py \
     --venue "Madison Square Garden" \
     --top-k 20
 ```
-
----
-
-## Data
-
-- **Source**: setlist.fm
-- **Time period**: 2022-01-01 to 2025-10-25
-- **Shows**: 220 concerts
-- **Songs**: 203 unique tracks
-- **Setlist entries**: 3,251 song performances
-
-### Data Characteristics
-- **Average setlist size**: 14.8 songs (range: 8-34)
-- **Marathon shows**: 17 extended performances (3-hour shows with 22-34 songs)
-- **Long-tail distribution**: Many songs played rarely (sparse, challenging problem)
-- **Temporal split for training**: 70% train, 15% validation, 15% test (chronological order)
-
-
-### Filtered Data Decisions
-
-Based on our experiments, we made these filtering decisions:
-
-1. **Time period**: 2022+ only (more recent = more structure)
-2. **Specialized shows**: Excluded orchestra shows and rave shows
-   - Orchestra: very rigid setlist, plays Phantom Island (album 27) in full
-   - Rave: Electronic-focused, different patterns
-3. **Partial setlists**: Excluded incomplete data
-
-**Impact**: +2-3% Recall@15 improvement from proper filtering
-
 ---
 
 ## Future Work
