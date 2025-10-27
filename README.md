@@ -205,7 +205,7 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 
 ---
 
-## Model Architectures
+## Key Model Architectures
 
 ### XGBoost (Stage 2):
 
@@ -601,7 +601,7 @@ This was a crucial negative result. The neural nets learned embeddings for songs
 
 ### Stage 4: Temporal Graph Neural Network (44.08%)
 
-We then implemented the model (with appropriate modifications to our problem) in KDD 2022 [1], which treats songs as nodes in a graph and uses temporal attention to model evolving patterns. This allows us to capture co-occurrence relationships directly.
+We then implemented the model (with appropriate modifications to our problem) in [1], which treats songs as nodes in a graph and uses temporal attention to model evolving patterns. This allows us to capture co-occurrence relationships directly.
 
 **How it works**:
 1. For each prediction, look at previous 5 shows
