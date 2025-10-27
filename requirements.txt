@@ -1,0 +1,37 @@
+# King Gizzard Setlist Predictor - Requirements
+# Generated from pyproject.toml
+# Install with: pip install -r requirements.txt
+
+# Core data processing
+pandas>=2.2.0
+numpy>=1.26.0
+pyarrow>=15.0.0
+python-dotenv>=1.0.1
+pydantic>=2.6.0
+pydantic-settings>=2.1.0
+
+# Machine learning
+scikit-learn>=1.4.0
+xgboost>=2.0.3
+torch>=2.0.0
+torch-geometric>=2.4.0
+torch-scatter>=2.1.0
+torch-sparse>=0.6.0
+
+# Hyperparameter tuning
+optuna>=3.5.0
+
+# Utilities
+requests>=2.31.0
+diskcache>=5.6.3
+joblib>=1.3.2
+tqdm>=4.66.1
+click>=8.1.7
+python-dateutil>=2.8.2
+pyyaml>=6.0.1
+
+# Visualization
+matplotlib>=3.8.2
+seaborn>=0.13.2
+scipy>=1.12.0
+networkx>=3.2.1
