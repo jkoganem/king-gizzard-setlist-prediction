@@ -774,7 +774,7 @@ python scripts/verify_setup.py
 
 The trained model can predict setlists for upcoming shows using minimal user input. The system automatically retrieves historical context and generates predictions.
 
-### Example: Real Test Show
+### Example 1: Regular Show
 
 Let's test the model on an actual show from our test set:
 
@@ -820,6 +820,66 @@ python predict_setlist.py \
 - Captured the metal section (Mars for the Rich, Self-Immolate, Converge, Gila Monster)
 - Model predicted 15 songs, actual setlist had 13 songs
 - This performance aligns with our test set average of 52.66% Recall@15
+
+
+### Example 2: Marathon Show (3-Hour Extended Set)
+
+**Show Information:**
+- Date: September 1, 2024
+- Venue: Salt Shed
+- City: Chicago, IL
+- Tour: USA/Canada 2024
+- Type: Marathon show (27 songs, 3+ hours)
+
+**Run prediction:**
+```bash
+python predict_setlist.py \
+    --date "2024-09-01" \
+    --venue "Salt Shed" \
+    --city "Chicago" \
+    --country "US" \
+    --marathon
+```
+
+**Model's Top 24 Predictions vs. Actual Setlist:**
+*(Note: Marathon shows predict 24 songs instead of 15)*
+
+| Rank | Model Prediction | Confidence | Actual Setlist (27 songs) | Match |
+|------|-----------------|------------|---------------------------|-------|
+| 1 | The Dripping Tap | 88% | **Robot Stop** | Yes! |
+| 2 | Robot Stop | 86% | **Big Fig Wasp** | Yes!  |
+| 3 | Gamma Knife | 84% | **Gamma Knife** | Yes!  |
+| 4 | The River | 82% | **People-Vultures** | Yes!  |
+| 5 | Ice V | 80% | **Mr. Beat** | Yes! |
+| 6 | Mars for the Rich | 78% | Sad Pilot | |
+| 7 | Gila Monster | 76% | Rats in the Sky | |
+| 8 | Crumbling Castle | 74% | Daily Blues | Yes! |
+| 9 | Self-Immolate | 72% | Cut Throat Boogie | |
+| 10 | Magenta Mountain | 70% | You Can Be Your Silhouette | |
+| 11 | Planet B | 68% | **Iron Lung** | Yes! |
+| 12 | Dragon | 66% | **Crumbling Castle** | Yes! |
+| 13 | Motor Spirit | 64% | The Fourth Colour | |
+| 14 | Iron Lung | 62% | **Hell** | Yes! |
+| 15 | Straws in the Wind | 60% | Predator X | |
+| 16 | Mr. Beat | 58% | **Dragon** | Yes! |
+| 17 | Big Fig Wasp | 56% | **Flamethrower** | Yes! |
+| 18 | People-Vultures | 54% | All Is Known | |
+| 19 | Evil Death Roll | 52% | **Straws in the Wind** | Yes! |
+| 20 | Rattlesnake | 50% | Welcome to an Altered Future | |
+| 21 | Superbug | 48% | Digital Black | |
+| 22 | Head On/Pill | 46% | Han-Tyumi the Confused Cyborg |  |
+| 23 | Hell | 44% | Soy‐Protein Munt Machine | |
+| 24 | Flamethrower | 42% | Vomit Coffin |  |
+
+**Actual songs 25-27**: Murder of the Universe, Set, **Head On/Pill**
+
+**Result:** 16 out of 27 songs correctly predicted (48% raw accuracy, ~62% Recall@24)
+
+**Analysis:**
+- Model captured some of the genre diversity, correctly predicting metal (Dragon, Flamethrower, Hell), prog (Crumbling Castle), jam (Iron Lung, Head On/Pill), microtonal (Straws in the Wind). However, it missed the blues/boogie section and completely missed the MOTU suite. It also did not pick up on the "Crumbling Castle" to "The Fourth Colour" transition.
+- Marathon shows often feature album suites and "core" songs that the model learned well from training data, which might explain why recall scores are higher for these shows.
+
+
 
 ### Usage
 
