@@ -169,7 +169,7 @@ We tested the impact of including orchestra shows and rave shows (using Logistic
 
 | Configuration | Recall@15 | Notes |
 |--------------|-----------|-------|
-| **With orchestra/rave** | ~23% | Model confused by 30-song setlists |
+| **With orchestra/rave** | ~23% | Model confused by specialized setlists |
 | **Filtered** | ~26% | Cleaner patterns, better generalization |
 
 **Insight**: Orchestra shows (rigid setlist) and rave shows (synth table only) don't follow normal setlist patterns. Including them hurts performance.
