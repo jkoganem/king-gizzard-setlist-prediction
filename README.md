@@ -876,7 +876,7 @@ python predict_setlist.py \
 **Result:** 16 out of 27 songs correctly predicted (48% raw accuracy, ~62% Recall@24)
 
 **Analysis:**
-- Model captured some of the genre diversity, correctly predicting metal (Dragon, Flamethrower, Hell), prog (Crumbling Castle), jam (Iron Lung, Head On/Pill), microtonal (Straws in the Wind). However, it missed the blues/boogie section and completely missed the MOTU suite. It also did not pick up on the "Crumbling Castle" to "The Fourth Colour" transition.
+- Model captured some of the genre diversity, correctly predicting psych (the entire Nonagon suite), metal (Dragon, Flamethrower, Hell), prog (Crumbling Castle), jam (Iron Lung, Head On/Pill), and microtonal (Straws in the Wind). However, it missed the blues/boogie section and completely missed the MOTU suite. It also did not pick up on the "Crumbling Castle" to "The Fourth Colour" transition.
 - Marathon shows often feature album suites and "core" songs that the model learned well from training data, which might explain why recall scores are higher for these shows.
 
 
