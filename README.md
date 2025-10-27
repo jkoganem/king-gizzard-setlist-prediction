@@ -905,14 +905,14 @@ python predict_setlist.py \
 ---
 
 ## Future Work
-
-1. **Ensemble methods**: Combine multiple weak learners to improve predictions
-2. **Opener/closer prediction**: Train separate models for opener/closer prediction
-3. **Specific fine-tuning**: Train specific models for different show types (festivals, marathons, orchestral, rave, etc.)
-4. **Additional features**: Add genre tags, album tags, song duration, BPM, etc.
-5. **Genre co-occurrence?**: On top of song co-occurrence, model genre-level co-occurrence patterns
-6. **Frontend UI integration**: Build a web app for easy inference access
-7. **End-to-end deployment**: Dockerize and deploy on cloud platforms
+1. **Opener/closer prediction**: Train specialized models for opener/closer prediction
+2. **Rare song prediction**: Train specialized models on predicting rare songs that appear infrequently
+3. **Show-type fine-tuning**: Train specialized models for different show types (festivals, marathons, orchestral, rave, etc.)
+4. **Ensemble methods**: Combine multiple weak learners to improve over setlist prediction
+5. **Additional features**: Add genre tags, album tags, song duration, BPM, etc.
+6. **Genre co-occurrence?**: On top of song co-occurrence, model genre-level co-occurrence patterns
+7. **Frontend UI integration**: Build a web app for easy inference access
+8. **End-to-end deployment**: Dockerize and deploy on cloud platforms
 
 ---
 
