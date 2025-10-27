@@ -213,27 +213,27 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 ┌─────────────────────────────────────────────────────────┐
 │ User Inputs (Required):                                 │
 │ • Date: "2025-11-01"                                    │
-│ • Venue: "Red Rocks Amphitheatre" (or venue_id)       │
-│ • Tour: "Fall 2025 Tour"                               │
+│ • Venue: "Red Rocks Amphitheatre" (or venue_id)         │
+│ • Tour: "Fall 2025 Tour"                                │
 │                                                         │
 │ Optional Inputs:                                        │
-│ • is_marathon: True/False (marathon = 24+ songs)       │
-│ • is_festival: True/False                              │
-│ • country: "US" (auto-derived for known venues)        │
+│ • is_marathon: True/False (marathon = 24+ songs)        │
+│ • is_festival: True/False                               │
+│ • country: "US" (auto-derived for known venues)         │
 │                                                         │
-│ Note: System auto-looks up country for 362 known       │
-│       venues. For new venues, provide country.         │
+│ Note: System auto-looks up country for 362 known        │
+│       venues. For new venues, provide country.          │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Feature Engineering (34 features)                       │
-│ • Frequency: venue_play_rate, global_frequency         │
-│ • Recency: days_since_played, shows_since_played       │
-│ • Time-Decay: exp_decay_15d, exp_decay_30d, 60d        │
-│ • Context: is_festival, is_marathon, country           │
-│ • Residency: residency_night_number, total_nights      │
-│ • Temporal: played_in_last_N_shows (5 flags)           │
+│ • Frequency: venue_play_rate, global_frequency          │
+│ • Recency: days_since_played, shows_since_played        │
+│ • Time-Decay: exp_decay_15d, exp_decay_30d, 60d         │
+│ • Context: is_festival, is_marathon, country            │
+│ • Residency: residency_night_number, total_nights       │
+│ • Temporal: played_in_last_N_shows (5 flags)            │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
@@ -247,7 +247,7 @@ This imbalance makes prediction even harder - the model needs to learn when rare
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Output: Top-15 Songs + Probabilities                    │
-│ Example: ["Rattlesnake": 0.87, "The River": 0.82, ...] │
+│ Example: ["Rattlesnake": 0.87, "The River": 0.82, ...]  │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
@@ -260,45 +260,45 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 ┌─────────────────────────────────────────────────────────┐
 │ User Inputs (Required):                                 │
 │ • Date: "2025-11-01"                                    │
-│ • Venue: "Red Rocks Amphitheatre"                      │
-│ • Tour: "Fall 2025 Tour"                               │
-│ • Country: "United States" (for new venues)            │
+│ • Venue: "Red Rocks Amphitheatre"                       │
+│ • Tour: "Fall 2025 Tour"                                │
+│ • Country: "United States" (for new venues)             │
 │                                                         │
 │ Optional Inputs:                                        │
-│ • is_marathon: True/False                              │
-│ • is_festival: True/False                              │
+│ • is_marathon: True/False                               │
+│ • is_festival: True/False                               │
 │                                                         │
-│ Note: Country can be auto-derived for known venues     │
+│ Note: Country can be auto-derived for known venues      │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ ShowContextRetriever: Auto-Fetch Previous 5 Setlists    │
-│ • Query database for last 5 shows before target date   │
-│ • Exclude partial setlists                             │
-│ • Return chronologically sorted setlists               │
+│ • Query database for last 5 shows before target date    │
+│ • Exclude partial setlists                              │
+│ • Return chronologically sorted setlists                │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Build Co-occurrence Graph from Retrieved Setlists       │
-│ • Nodes: Songs (203 songs)                             │
-│ • Edges: Co-play counts from retrieved setlists        │
-│ • Dynamic (updates with each show)                     │
+│ • Nodes: Songs (203 songs)                              │
+│ • Edges: Co-play counts from retrieved setlists         │
+│ • Dynamic (updates with each show)                      │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Graph Convolution (2 layers)                            │
-│ • Spread information between connected songs           │
-│ • Learn song clusters (e.g., "Rattlesnake" cluster)    │
+│ • Spread information between connected songs            │
+│ • Learn song clusters (e.g., "Rattlesnake" cluster)     │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Temporal Attention                                       │
+│ Temporal Attention                                      │
 │ • Weight recent shows more heavily                      │
-│ • Capture evolving patterns                            │
+│ • Capture evolving patterns                             │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
@@ -312,7 +312,7 @@ This imbalance makes prediction even harder - the model needs to learn when rare
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Output: Top-15 Songs + Probabilities                    │
-│ Learned from graph patterns                            │
+│ Learned from graph patterns                             │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -322,66 +322,66 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 ┌─────────────────────────────────────────────────────────┐
 │ User Inputs (Required):                                 │
 │ • Date: "2025-11-01"                                    │
-│ • Venue: "Red Rocks Amphitheatre"                      │
-│ • Tour: "Fall 2025 Tour"                               │
-│ • Country: "United States" (for new venues)            │
+│ • Venue: "Red Rocks Amphitheatre"                       │
+│ • Tour: "Fall 2025 Tour"                                │
+│ • Country: "United States" (for new venues)             │
 │                                                         │
 │ Optional Inputs:                                        │
-│ • is_marathon: True/False                              │
-│ • is_festival: True/False                              │
+│ • is_marathon: True/False                               │
+│ • is_festival: True/False                               │
 │                                                         │
-│ Note: Country can be auto-derived for known venues     │
+│ Note: Country can be auto-derived for known venues      │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ ShowContextRetriever: Auto-Fetch Previous 5 Setlists    │
-│ • Query database for last 5 shows before target date   │
-│ • Exclude partial setlists                             │
-│ • Return chronologically sorted setlists               │
+│ • Query database for last 5 shows before target date    │
+│ • Exclude partial setlists                              │
+│ • Return chronologically sorted setlists                │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Build Co-occurrence Graph from Retrieved Setlists       │
-│ • Nodes: 203 songs                                     │
-│ • Edges: Co-play counts                                │
+│ • Nodes: 203 songs                                      │
+│ • Edges: Co-play counts                                 │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
 │ GNN Path: Graph Convolution + Temporal Attention        │
-│ • 2-layer GCN spreads information across graph         │
-│ • Attention weights recent shows more heavily          │
-│ • Context embeddings: venue (16d) + tour (16d) +       │
-│   country (8d) + is_festival (8d) + is_marathon (8d)   │
-│ • Output: logits_gnn [num_songs]                       │
+│ • 2-layer GCN spreads information across graph          │
+│ • Attention weights recent shows more heavily           │
+│ • Context embeddings: venue (16d) + tour (16d) +        │
+│   country (8d) + is_festival (8d) + is_marathon (8d)    │
+│ • Output: logits_gnn [num_songs]                        │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ ADD Frequency Prior (learnable weight alpha)                │
-│ • freq_scores = log(1 + count / total_shows)           │
-│ • logits = logits_gnn + alpha  *  freq_scores                │
-│ • alpha initialized at 0.5, learned during training        │
+│ ADD Frequency Prior (learnable weight alpha)            │
+│ • freq_scores = log(1 + count / total_shows)            │
+│ • logits = logits_gnn + alpha  *  freq_scores           │
+│ • alpha initialized at 0.5, learned during training     │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│ ADD Recency Prior (learnable weight beta)                  │
-│ • recency_scores = -Σ(decay^t  *  played[t])             │
-│   (negative to penalize recently-played songs)         │
-│ • logits = logits + beta  *  recency_scores                 │
-│ • beta initialized at 0.5, learned during training        │
+│ ADD Recency Prior (learnable weight beta)               │
+│ • recency_scores = -Σ(decay^t  *  played[t])            │
+│   (negative to penalize recently-played songs)          │
+│ • logits = logits + beta  *  recency_scores             │
+│ • beta initialized at 0.5, learned during training      │
 └─────────────────────────────────────────────────────────┘
                          │
                          ▼
-┌─────────────────────────────────────────────────────────┐
-│ L2 Regularization on alpha/beta During Training                │
-│ • loss = BCE_loss + reg_weight  *  (alpha² + beta²)            │
-│ • Prevents weights from exploding                      │
+┌──────────────────────────────────────────────────────────────────────┐
+│ L2 Regularization on alpha/beta During Training                      │
+│ • loss = BCE_loss + reg_weight  *  (alpha² + beta²)                  │
+│ • Prevents weights from exploding                                    │
 │ • Balance: strong reg (0.1) -> alpha≈0.06, weak (0.01) -> alpha≈0.35 │
-└─────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
