@@ -663,7 +663,7 @@ We added explicit frequency and recency priors from SAFERec (see [2]) to upgrade
 
 **Bottom Panel**: The regularization keeps alpha and beta small
 - Without regularization, alpha would grow to 2.0+ and dominate the GNN
-- With regularization (L2 penalty), alpha stays at ~0.06
+- With regularization (L2 penalty), alpha stays below 0.5
 - This forces the model to use **both** graph patterns **and** frequency
 
 **Why this matters**: We discovered that letting frequency weight grow too large causes the model to just predict popular songs and ignore temporal context. Regularization fixes this.
