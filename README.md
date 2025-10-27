@@ -755,13 +755,13 @@ We added explicit frequency and recency priors from SAFERec (see [2]) to upgrade
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd "Setlist predictor"
+git clone https://github.com/jkoganem/king-gizzard-setlist-prediction.git
+cd king-gizzard-setlist-prediction
 
-# Install dependencies (using Poetry)
+# Option 1: Install with Poetry (recommended)
 poetry install
 
-# Or with pip
+# Option 2: Install with pip
 pip install -r requirements.txt
 
 # Verify setup
