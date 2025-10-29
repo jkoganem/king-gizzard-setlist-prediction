@@ -228,6 +228,47 @@ This imbalance makes prediction even harder - the model needs to learn when rare
 
 ---
 
+## Evaluation Framework
+
+### Recall@K 
+
+Recall@K measures what percentage of the actual setlist appears in our model's top K predictions. Mathematically, it is defined via the formula
+
+$$
+\text{Recall@K} = \frac{\text{Number of correct predictions in top K}}{\text{Total songs in actual setlist}}
+$$
+
+**Example:** 15-song show, top 15 predictions include 8 correct → Recall@15 = 53.3%
+
+### Why Recall@K?
+
+While other metrics like Accuracy, Precision, and F1 are common in classification tasks, they are less suitable here due to the extreme class imbalance (most songs are not played in a given show). 
+
+- **Accuracy:** Predicting "no" for all songs yields 93% accuracy but 0% recall (useless)
+- **Precision/F1:** Penalize false positives, but wrong predictions are still plausible songs
+- **Recall@K:** Directly measures coverage - "How many actual songs did we catch?"
+
+Recall@K adapts to show types (K=15 for regular, K=24 for marathons) and equals Precision@K when K matches setlist size.
+
+### Loss Function
+
+During training, our models aim to minimized the Binary Cross-Entropy (BCE) loss, defined via the formula.
+
+$$
+\text{BCE} = -\frac{1}{N}\sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i) \right]
+$$
+
+where $y_i \in \{0,1\}$ is the true label (1 if song $i$ was played, 0 otherwise) and $\hat{y}_i$ is the model's predicted probability.
+
+BCE penalizes both false positives (predicting a song that wasn't played) and false negatives (missing a song that was played), preventing naive strategies like always predicting popular songs.
+
+**Evaluation Metric - Recall@K:** Measures practical performance ("How many actual songs did we catch?")
+
+**Baseline:** Always predicting top 15 popular songs → ~35-40% vs our **52.66%**
+
+
+---
+
 ## Key Model Architectures
 
 ### XGBoost (Stage 2):
