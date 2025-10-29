@@ -262,9 +262,8 @@ where $y_i \in \{0,1\}$ is the true label (1 if song $i$ was played, 0 otherwise
 
 BCE penalizes both false positives (predicting a song that wasn't played) and false negatives (missing a song that was played), preventing naive strategies like always predicting popular songs.
 
-**Evaluation Metric - Recall@K:** Measures practical performance ("How many actual songs did we catch?")
 
-**Baseline:** Always predicting top 15 popular songs → ~35-40% vs our **52.66%**
+**Baseline:** Always predicting top 15 popular songs → ~35-40% Recall@15 vs our final temporal set GNN achieving Recall@15 of **52.66%**. 
 
 
 ---
